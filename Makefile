@@ -1,6 +1,6 @@
 export BUILD_TOPDIR=$(PWD)
-export STAGING_DIR=/home/william/Git/openwrt/staging_dir
-export TOOLPATH=$(STAGING_DIR)/toolchain-arm_cortex-a7+neon-vfpv4_gcc-7.3.0_musl_eabi/
+export STAGING_DIR=/home/william/Git/openwrt-sdk-ipq806x/staging_dir
+export TOOLPATH=$(STAGING_DIR)/toolchain-arm_cortex-a7_gcc-4.8-linaro_uClibc-1.0.14_eabi/
 export PATH:=$(TOOLPATH)/bin:${PATH}
 export MAKECMD=make --silent ARCH=arm CROSS_COMPILE=arm-openwrt-linux-
 
@@ -13,7 +13,7 @@ export CONFIG_BOOTDELAY=1
 all: ipq40xx
 
 ipq40xx:	export UBOOT_FILE_NAME=uboot-ipq40xx
-ipq40xx:	export MAX_UBOOT_SIZE=1024
+ipq40xx:	export MAX_UBOOT_SIZE=512
 ipq40xx:
 	@mkdir -p $(BUILD_TOPDIR)/bin
 	@cd $(BUILD_TOPDIR)/uboot/ && $(MAKECMD) ipq40xx_cdp_config
@@ -51,3 +51,4 @@ clean_all:	clean
 	@rm -f $(BUILD_TOPDIR)/bin/*.bin
 	@rm -f $(BUILD_TOPDIR)/bin/*.elf
 	@rm -f $(BUILD_TOPDIR)/bin/*.md5
+	
