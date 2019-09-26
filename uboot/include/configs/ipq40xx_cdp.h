@@ -294,7 +294,7 @@ typedef struct {
 #define CONFIG_SYS_MAX_NAND_DEVICE	(CONFIG_IPQ_MAX_NAND_DEVICE + \
 					 CONFIG_IPQ_MAX_SPI_DEVICE)
 
-#define CONFIG_QCA_MMC
+//#define CONFIG_QCA_MMC
 
 #ifdef CONFIG_QCA_MMC
 #define CONFIG_CMD_MMC
@@ -313,7 +313,7 @@ typedef struct {
 #define CONFIG_RBTREE		/* for ubi */
 #define CONFIG_CMD_UBI
 #define CONFIG_BOOTCOMMAND	"bootipq"
-#define CONFIG_BOOTDELAY	10
+#define CONFIG_BOOTDELAY	5
 #define CONFIG_IPQ_FDT_HIGH	0x87000000
 
 #define CONFIG_UBOOT_START 			0x900000
@@ -323,11 +323,11 @@ typedef struct {
 #define CONFIG_FIRMWARE_START		0x4c80000
 #define CONFIG_FIRMWARE_SIZE		0x3300000
 
-#define CONFIG_LOADADDR 0x90000000
+#define CONFIG_LOADADDR 0x84000000
 #define CONFIG_UBOOT_NAME "openwrt-ipq40xx-u-boot-stripped.elf"
 #define CONFIG_FIRMWARE "firmware.bin"
 #define CONFIG_BOOTSTOPKEY	"gl"
-#define CONFIG_VERSION	"20180419"
+#define CONFIG_VERSION	"test"
 
 
 
@@ -335,19 +335,6 @@ typedef struct {
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"version="CONFIG_VERSION"\0" \
-	"loadaddr="MK_STR(CONFIG_LOADADDR)"\0" \
-	"uboot_name="CONFIG_UBOOT_NAME"\0" \
-	"fw_name="CONFIG_FIRMWARE"\0" \
-	"lu=if ping $serverip; then tftpboot $loadaddr $uboot_name && sf probe && sf erase "MK_STR(CONFIG_UBOOT_START)" "MK_STR(CONFIG_UBOOT_SIZE)" && sf write $loadaddr "MK_STR(CONFIG_UBOOT_START)" $filesize; fi\0" \
-	"lf=if ping $serverip; then " \
-	    "tftpboot $loadaddr $fw_name && " \
-		    "if checkfw; then " \
-		         "burning_qsdk; " \
-		     "else " \
-		         "burning_lede; " \
-		     "fi; " \
-    "fi\0" \
-	"lc=if ping $serverip; then tftpboot $loadaddr config.bin && updateconfig; fi\0"
 
 
 

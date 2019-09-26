@@ -358,7 +358,7 @@ static int do_boot_signedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const a
 
 static int do_boot_unsignedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
 {
-	printf("%s\n", __func__);
+//	printf("%s\n", __func__);
 #ifdef CONFIG_QCA_APPSBL_DLOAD
 	uint64_t etime;
 	volatile u32 val;
@@ -428,12 +428,19 @@ static int do_boot_unsignedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const
 			return -1;
 		}
 
+//		snprintf(runcmd, sizeof(runcmd),
+//			"set mtdids nand0=nand0 && "
+//			"set mtdparts mtdparts=nand0:0x%llx@0x%llx(fs),${msmparts} && "
+//			"ubi part fs && "
+//			"ubi read 0x%x kernel && ",
+//			sfi->rootfs.size, sfi->rootfs.offset,
+//			CONFIG_SYS_LOAD_ADDR);
+			
 		snprintf(runcmd, sizeof(runcmd),
 			"set mtdids nand0=nand0 && "
-			"set mtdparts mtdparts=nand0:0x%llx@0x%llx(fs),${msmparts} && "
+			"set mtdparts mtdparts=nand0:0x3300000@0x4c80000(fs),${msmparts} && "
 			"ubi part fs && "
 			"ubi read 0x%x kernel && ",
-			sfi->rootfs.size, sfi->rootfs.offset,
 			CONFIG_SYS_LOAD_ADDR);
 
 	} else if ((sfi->flash_type == SMEM_BOOT_SPI_FLASH) && (gboard_param->nor_emmc_available == 0)) {
@@ -493,6 +500,7 @@ static int do_boot_unsignedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const
 		return -1;
 	}
 
+	printf("cmd:%s\n", runcmd);
 	if (run_command(runcmd, 0) != CMD_RET_SUCCESS) {
 #ifdef CONFIG_QCA_MMC
 		mmc_initialize(gd->bd);
@@ -504,6 +512,7 @@ static int do_boot_unsignedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const
 
 	ret = genimg_get_format((void *)CONFIG_SYS_LOAD_ADDR);
 	if (ret == IMAGE_FORMAT_FIT) {
+		printf("IMAGE_FORMAT_FIT\n");
 		ret = config_select(CONFIG_SYS_LOAD_ADDR, gboard_param->dtb_config_name,
 				runcmd, sizeof(runcmd));
 	} else if (ret == IMAGE_FORMAT_LEGACY) {
@@ -525,7 +534,7 @@ static int do_boot_unsignedimg(cmd_tbl_t *cmdtp, int flag, int argc, char *const
 			return CMD_RET_FAILURE;
 		}
 	}
-
+	
 	if (ret < 0 || run_command(runcmd, 0) != CMD_RET_SUCCESS) {
 		dcache_disable();
 		return CMD_RET_FAILURE;
@@ -541,6 +550,7 @@ static int do_bootipq(cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
 	 * set fdt_high parameter so that u-boot will not load
 	 * dtb above CONFIG_IPQ40XX_FDT_HIGH region.
 	 */
+	printf("bootqca\r\n");
 	if (run_command("set fdt_high " MK_STR(CONFIG_IPQ_FDT_HIGH) "\n", 0)
 			!= CMD_RET_SUCCESS) {
 		return CMD_RET_FAILURE;
