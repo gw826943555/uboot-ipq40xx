@@ -544,6 +544,7 @@ void auto_update_by_tftp(void)
 	run_command(cmd, 0);
 }
 
+#endif
 
 void uboot_env_restore(void)
 {
@@ -557,7 +558,6 @@ void uboot_env_restore(void)
 		do_reset(NULL, 0, 0, NULL);
 	}
 }
-#endif
 
 void main_loop (void)
 {
@@ -726,7 +726,7 @@ void main_loop (void)
 	}
 #endif
 /********************************************************************************************/
-#ifdef CONFIG_GL_CHECK_ART
+#ifdef CONFIG_RESET_DEFAULT_ENV
 	uboot_env_restore();
 #endif
 

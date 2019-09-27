@@ -592,7 +592,7 @@ void phy_gpio_reset(void)
 					gpio_data.gpio_vm, gpio_data.gpio_od_en,
 					gpio_data.gpio_pu_res);
 	writel(GPIO_OUT, GPIO_IN_OUT_ADDR(47));
-	printf("init qca8075 reset gpio47, this is just a wokk around!!!\n");
+	printf("init qca8075 reset gpio47, this is just a work around!!!\n");
 }
 
 #include "command.h"

@@ -22,7 +22,7 @@ ipq40xx:
 	@cp $(BUILD_TOPDIR)/uboot/u-boot $(BUILD_TOPDIR)/bin/openwrt-ipq40xx-u-boot-stripped.elf
 	@make show_size
 	@make stripped
-	
+	@cp $(BUILD_TOPDIR)/bin/openwrt-ipq40xx-u-boot-stripped.elf /home/william/tftpd/cm520.elf
 
 show_size:
 	@echo -e "\n======= Preparing $(MAX_UBOOT_SIZE)KB file filled with 0xFF... ======="
