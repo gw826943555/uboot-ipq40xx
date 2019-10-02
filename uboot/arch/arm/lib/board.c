@@ -684,7 +684,7 @@ void board_init_r(gd_t *id, ulong dest_addr)
 
 	all_led_off();
 	power_led_on();
-	phy_gpio_reset();
+//	phy_gpio_reset();
 
 
 	/* main_loop() can return to retry autoboot, if so just run it again. */
