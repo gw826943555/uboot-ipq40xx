@@ -54,8 +54,9 @@ int do_http_upgrade( const ulong size, const int upgrade_type )
 	if ( upgrade_type == WEBFAILSAFE_UPGRADE_TYPE_UBOOT ) {
 		printf( "\n\n****************************\n*     U-BOOT UPGRADING     *\n* DO NOT POWER OFF DEVICE! *\n****************************\n\n" );
 
-		sprintf(cmd, "nand erase 0x%x 0x%x && nand write 0x%x 0x%x 0x%x", 
-			CONFIG_UBOOT_START, CONFIG_UBOOT_SIZE, CONFIG_LOADADDR, CONFIG_UBOOT_START, CONFIG_UBOOT_SIZE);
+		sprintf(cmd, "nand erase 0x%x 0x%x && nand write 0x%x 0x%x 0x%x && nand erase 0x%x 0x%x && nand write 0x%x 0x%x 0x%x", 
+			CONFIG_UBOOT1_START, CONFIG_UBOOT1_SIZE, CONFIG_LOADADDR, CONFIG_UBOOT1_START, CONFIG_UBOOT1_SIZE,
+			CONFIG_UBOOT2_START, CONFIG_UBOOT2_SIZE, CONFIG_LOADADDR, CONFIG_UBOOT2_START, CONFIG_UBOOT2_SIZE);
 		return run_command(cmd, 0);
 
 	} else if ( upgrade_type == WEBFAILSAFE_UPGRADE_TYPE_FIRMWARE ) {
@@ -74,7 +75,8 @@ int do_http_upgrade( const ulong size, const int upgrade_type )
 	} else if ( upgrade_type == WEBFAILSAFE_UPGRADE_TYPE_ART ) {
 
 		printf( "\n\n****************************\n*      ART  UPGRADING      *\n* DO NOT POWER OFF DEVICE! *\n****************************\n\n" );
-		sprintf(cmd, "sf probe && sf erase 0x170000 0x10000 && sf write 0x84000000 0x170000 0x10000");
+		sprintf(cmd, "nand erase 0x%x 0x%x && nand write 0x%x 0x%x 0x%x",
+			CONFIG_ART_START, CONFIG_ART_SIZE, CONFIG_LOADADDR, CONFIG_ART_START, CONFIG_ART_SIZE);
 
 		return run_command(cmd, 0);
 
